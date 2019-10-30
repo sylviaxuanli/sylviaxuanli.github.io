@@ -158,6 +158,88 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-something-about-algorithm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/29/something-about-algorithm/">something about algorithm</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/29/something-about-algorithm/" class="archive-article-date">
+  	<time datetime="2019-10-29T07:26:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="记录下对于算法的想法"><a href="#记录下对于算法的想法" class="headerlink" title="记录下对于算法的想法"></a>记录下对于算法的想法</h4><p>看到一篇论文中提到——利用遗传算法的全局优化来…，会想到为什么遗传算法会具有全局最优化，难道仅仅是因为其具有随机性？</p>
+<p>在搜索的过程中，我看到了模拟退火算法——模拟退火算法也是一种贪心算法，但是它的搜索过程引入了随机因素（其以一定的概率来接受一个比当前解要差的解，因此有可能会跳出这个局部的最优解，达到全局的最优解。</p>
+<p>继续搜索发现：</p>
+<p>优化领域解决方法通常有三中：第一种是精确方案，另外还有启发式算法（元启发式算法）</p>
+<ol>
+<li><p>精确方法。通常是建立数学模型（目标函数，决策变量以及约束条件），通过优化算法（单纯形法，分支定界等）求得最优解。解的合理性由模型建立和优化算法设计决定</p>
+</li>
+<li><p>启发式算法。其出现的原因是因为随着问题规模的扩大，在有限的时间内不可能得到最优解，这就需要在求解和运算时间中折中，求得次优解。启发式算法是以问题为导向的程序，根据问题的特殊结构或者性质来改进解，包括构造算法和改进算法。</p>
+<p>构造算法，如打分问题，有一个规则是去掉最大值和最小值，这样就可以形成一个启发式的规则，基于数值的排列，这样就可以根据这个规则得到机器序列</p>
+<p>改进算法，比如贪婪方法的爬山法，由一个初始解开始改进解，但是爬山法太贪婪，容易陷入局部最优</p>
+<p>元启发算法，则是对启发式算法的改进——可以使用某些操作跳出局部最优，一般至少需要提供至少一个初始可行解，在预定义的搜索空间高效搜索用以迭代的改进解。其可以分为基于单个解的算法（模拟退火算法和禁忌搜索算法），基于群体的算法（遗传算法，分散搜索算法，粒子群算法和蚁群算法）。更详细的分类，如图</p>
+<p><img src="F:%5Cphotos%5Ch5%5Cv2-e9b241da015947d9e75ec6ad6001045d_r.jpg" alt="v2-e9b241da015947d9e75ec6ad6001045d_r"></p>
+</li>
+</ol>
+<p>启发算法设计更多是problem-dependent，元启发算法是独立于问题的problem-independent（可以作为一个黑箱操作，适用性广，但是还是要根据问题调算法各种参数）。元启发算法范围内大部分应用了随机优化结构，多目标优化用的蛮多。但是多目标优化中，目标太多时一般会先降维（比如PCA），多余3-5个目标的优化效率低，也没有太多实际的可读性。接近实际的案例里面一般都会涉及多种算法，先用元启发算法求得一个小范围的满意解，再用启发或精确算法找最优解，这样既提高了计算效率又能有高质量结果。</p>
+<p>每种进化算法都有跳出最优解的机制或者算子（借用一些条件作为搜索的随机变化条件，比如变异等，以期望能快速收敛到最优解，这类方法对于有多个极值点的问题以及大部分组合优化问题的效果并不好），但是要用进化算法求解大规模组合优化问题时，首先应该根据问题类型（比如优化参数类型）选择适合的算法，然后考虑问题所具有的特性，引入数学规划方法和设计一些相应的启发式算子去指导寻优策略。</p>
+<p>当元启发式和启发式方法混合，可以产生不一样的效果——元启发式算法的性能非常依赖初始解的质量，可以使用启发式算法为元启发式算法产生初始解，以提高性能。(文献综述，<a href="https://www.sciencedirect.com/science/article/abs/pii/S1568494611000962）。同样，元启发式算法也可以与精确算法结合（文献综述：https://www.sciencedirect.com/science/article/abs/pii/S0377221708003597）。" target="_blank" rel="noopener">https://www.sciencedirect.com/science/article/abs/pii/S1568494611000962）。同样，元启发式算法也可以与精确算法结合（文献综述：https://www.sciencedirect.com/science/article/abs/pii/S0377221708003597）。</a></p>
+<p>看到这类优化算法，会想到之前学的运筹学——线性规划，整数规划，动态规划，多目标优化，随机优化，网络流问题（特殊的混合整数规划问题，满足一个节点流出流量=流入流，最大流最小割定理）组合优化问题等</p>
+<p>在目前的计算机运用范围内（我所看到的），求解最优问题，一般都会假设可导连续或者凸函数，如果不考虑函数问题，也就是采用一些较简单的变异等根据自然仿生而衍生出来的算法，当然现在看的文献还远远不够，之前看到非凸优化应用也很多了，非凸优化和整数规划会不会是下一个风口，路漫漫</p>
+<p>最后回到最开始的问题，遗传算法并不能保证全局最优，其具有随机性。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/29/something-about-algorithm/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-请打开窗子，抚摸飘舞的秋风" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
